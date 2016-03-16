@@ -148,7 +148,7 @@ class EllipticCoerciveRBBase(EllipticCoerciveBase):
     #  @{
     
     ## Perform the offline phase of the reduced order model
-    def offline(self):
+    def offline(self, err_max = None):
         print "=============================================================="
         print "=             Offline phase begins                           ="
         print "=============================================================="
@@ -185,13 +185,18 @@ class EllipticCoerciveRBBase(EllipticCoerciveBase):
             self._online_solve(self.N)
             
             print "build matrices for error estimation (it may take a while)"
-            self.compute_dual_terms()
+            self.compute_dual_terms()	
             
             if self.N < self.Nmax:
                 print "find next mu"
-                self.greedy()
+                dmax = self.greedy()
+
+		if err_max != None and err_max > dmax:
+		    break
             else:
                 self.greedy()
+		if err_max != None and err_max > dmax:
+		    break
 
             print ""
             
@@ -238,6 +243,7 @@ class EllipticCoerciveRBBase(EllipticCoerciveBase):
             np.save(self.post_processing_folder + "mu_greedy", np.array(munew))
 
         self.setmu(munew)
+	return delta_max
         
     ## Compute dual terms
     def compute_dual_terms(self):
