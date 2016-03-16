@@ -1,0 +1,10 @@
+*~
+*.bak
+*.pyc
+basis*
+dual*
+post_processing*
+reduced_matrices*
+snapshots*
+xi_test*
+xi_train*
