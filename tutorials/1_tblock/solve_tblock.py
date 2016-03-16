@@ -125,7 +125,7 @@ tb.setNmax(8)
 
 # 6. Perform the offline phase
 # first_mu = (0.5,1.0)
-first_mu = (0.5,1.0,5.5)
+first_mu = (0.5,1.0,6.5)
 tb.setmu(first_mu)
 
 tb.offline(1.e-6)
