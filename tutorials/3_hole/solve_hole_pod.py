@@ -83,22 +83,22 @@ class Hole(ShapeParametrization(EllipticCoercivePODBase)):
         # boundaries 5, 6, 7 and 8
         theta_a12 = m3
 
-        # boundaries 7
-        theta_a13 = - (m2 - 2)/m1 - (2*(2*m1 - 2)*(m1 - 1))/(m1*(m2 - 2)) #K11
-        theta_a14 = -m1/(m2 - 2) #K22
-        theta_a15 = -(2*(m1 - 1))/(m2 - 2) #K12 and K21
-        # subdomains 8
-        theta_a16 = 2 - (m1 - 1)*(m1 - 1)/(m2 - 2) - m2
-        theta_a17 = -1/(m2 - 2)
-        theta_a18 = (m1 - 1)/(m2 - 2)
         # subdomains 5
-        theta_a19 = -(m2-m4)/(m1 - 2)
-        theta_a20 = - (m1 - 2)/(m2-m4) - (2*(2*(m2-m4) - 2)*((m2-m4) - 1))/((m2-m4)*(m1 - 2))
-        theta_a21 = -(2*((m2-m4) - 1))/(m1 - 2)
+        theta_a13 = -(m2-m4)/(m1 - 2)
+        theta_a14 = - (m1 - 2)/(m2-m4) - (2*(2*(m2-m4) - 2)*((m2-m4) - 1))/((m2-m4)*(m1 - 2))
+        theta_a15 = -(2*((m2-m4) - 1))/(m1 - 2)
+        # boundaries 7
+        theta_a16 = - (m2 - 2)/m1 - (2*(2*m1 - 2)*(m1 - 1))/(m1*(m2 - 2)) #K11
+        theta_a17 = -m1/(m2 - 2) #K22
+        theta_a18 = -(2*(m1 - 1))/(m2 - 2) #K12 and K21
+        # subdomains 8
+        theta_a19 = 2 - (m1 - 1)*(m1 - 1)/(m2 - 2) - m2
+        theta_a20 = -1/(m2 - 2)
+        theta_a21 = (m1 - 1)/(m2 - 2)
 
         
-        return (theta_a0, theta_a1, theta_a2, theta_a3, theta_a4, theta_a5, theta_a6, theta_a7, theta_a8, theta_a9, theta_a10, theta_a11, theta_a12,
-                theta_a13, theta_a14, theta_a15, theta_a16, theta_a17, theta_a18, theta_a19, theta_a20, theta_a21)
+        return (theta_a0, theta_a1, theta_a2, theta_a3, theta_a4, theta_a5, theta_a6, theta_a7, theta_a8, theta_a9, theta_a10, theta_a11, theta_a12, theta_a13,
+                theta_a14, theta_a15, theta_a16, theta_a17, theta_a18, theta_a19, theta_a20, theta_a21)
     
     ## Set theta multiplicative terms of the affine expansion of f.
     def compute_theta_f(self):
@@ -119,17 +119,17 @@ class Hole(ShapeParametrization(EllipticCoercivePODBase)):
         dx = self.dx
         ds = self.ds
         # subdomains 1
-        a0 = inner(u.dx(0), v.dx(0))*dx(1) +  inner(u.dx(0), v.dx(0))*dx(7)
-        a1 = inner(u.dx(1), v.dx(1))*dx(1) +  inner(u.dx(1), v.dx(1))*dx(7)
-        a2 = inner(u.dx(0), v.dx(1))*dx(1) +  inner(u.dx(1), v.dx(0))*dx(1) - (inner(u.dx(0), v.dx(1))*dx(7) +  inner(u.dx(1), v.dx(0))*dx(7))
+        a0 = inner(u.dx(0), v.dx(0))*dx(1)
+        a1 = inner(u.dx(1), v.dx(1))*dx(1)
+        a2 = inner(u.dx(0), v.dx(1))*dx(1) +  inner(u.dx(1), v.dx(0))*dx(1)
         # subdomains 2
-        a3 = inner(u.dx(0), v.dx(0))*dx(2) +  inner(u.dx(0), v.dx(0))*dx(8)
-        a4 = inner(u.dx(1), v.dx(1))*dx(2) +  inner(u.dx(1), v.dx(1))*dx(8)
-        a5 = inner(u.dx(0), v.dx(1))*dx(2) +  inner(u.dx(1), v.dx(0))*dx(2) - (inner(u.dx(0), v.dx(1))*dx(8) +  inner(u.dx(1), v.dx(0))*dx(8))
+        a3 = inner(u.dx(0), v.dx(0))*dx(2)
+        a4 = inner(u.dx(1), v.dx(1))*dx(2)
+        a5 = inner(u.dx(0), v.dx(1))*dx(2) +  inner(u.dx(1), v.dx(0))*dx(2)
         # subdomains 3
-        a6 = inner(u.dx(0), v.dx(0))*dx(3) +  inner(u.dx(0), v.dx(0))*dx(5)
-        a7 = inner(u.dx(1), v.dx(1))*dx(3) +  inner(u.dx(1), v.dx(1))*dx(5)
-        a8 = inner(u.dx(0), v.dx(1))*dx(3) +  inner(u.dx(1), v.dx(0))*dx(3) - (inner(u.dx(0), v.dx(1))*dx(5) +  inner(u.dx(1), v.dx(0))*dx(5))
+        a6 = inner(u.dx(0), v.dx(0))*dx(3)
+        a7 = inner(u.dx(1), v.dx(1))*dx(3)
+        a8 = inner(u.dx(0), v.dx(1))*dx(3) +  inner(u.dx(1), v.dx(0))*dx(3)
         # subdomains 4 and 6
         a9 = inner(u.dx(0), v.dx(0))*dx(4) +  inner(u.dx(0), v.dx(0))*dx(6)
         a10 = inner(u.dx(1), v.dx(1))*dx(4) +  inner(u.dx(1), v.dx(1))*dx(6)
@@ -137,18 +137,18 @@ class Hole(ShapeParametrization(EllipticCoercivePODBase)):
         # boundaries 5, 6, 7 and 8
         a12 = inner(u,v)*ds(5) + inner(u,v)*ds(6) + inner(u,v)*ds(7) + inner(u,v)*ds(8)
 
-        # subdomains 7
-        a13 = inner(u.dx(0), v.dx(0))*dx(1) +  inner(u.dx(0), v.dx(0))*dx(7)
-        a14 = inner(u.dx(1), v.dx(1))*dx(1) +  inner(u.dx(1), v.dx(1))*dx(7)
-        a15 = inner(u.dx(0), v.dx(1))*dx(1) +  inner(u.dx(1), v.dx(0))*dx(1) - (inner(u.dx(0), v.dx(1))*dx(7) +  inner(u.dx(1), v.dx(0))*dx(7))
-        # subdomains 8
-        a16 = inner(u.dx(0), v.dx(0))*dx(2) +  inner(u.dx(0), v.dx(0))*dx(8)
-        a17 = inner(u.dx(1), v.dx(1))*dx(2) +  inner(u.dx(1), v.dx(1))*dx(8)
-        a18 = inner(u.dx(0), v.dx(1))*dx(2) +  inner(u.dx(1), v.dx(0))*dx(2) - (inner(u.dx(0), v.dx(1))*dx(8) +  inner(u.dx(1), v.dx(0))*dx(8))
         # subdomains 5
-        a19 = inner(u.dx(0), v.dx(0))*dx(3) +  inner(u.dx(0), v.dx(0))*dx(5)
-        a20 = inner(u.dx(1), v.dx(1))*dx(3) +  inner(u.dx(1), v.dx(1))*dx(5)
-        a21 = inner(u.dx(0), v.dx(1))*dx(3) +  inner(u.dx(1), v.dx(0))*dx(3) - (inner(u.dx(0), v.dx(1))*dx(5) +  inner(u.dx(1), v.dx(0))*dx(5))
+        a13 = inner(u.dx(0), v.dx(0))*dx(5)
+        a14 = inner(u.dx(1), v.dx(1))*dx(5)
+        a15 = - (inner(u.dx(0), v.dx(1))*dx(5) +  inner(u.dx(1), v.dx(0))*dx(5))
+        # subdomains 7
+        a16 = inner(u.dx(0), v.dx(0))*dx(7)
+        a17 = inner(u.dx(1), v.dx(1))*dx(7)
+        a18 = - (inner(u.dx(0), v.dx(1))*dx(7) +  inner(u.dx(1), v.dx(0))*dx(7))
+        # subdomains 8
+        a19 = inner(u.dx(0), v.dx(0))*dx(8)
+        a20 = inner(u.dx(1), v.dx(1))*dx(8)
+        a21 = - (inner(u.dx(0), v.dx(1))*dx(8) +  inner(u.dx(1), v.dx(0))*dx(8))
 
         
         # Assemble and return
@@ -213,19 +213,21 @@ hole = Hole(V, mesh, subd, bound)
 parameters.linear_algebra_backend = 'PETSc'
 
 # 5. Set mu range, xi_train and Nmax
-mu_range = [(1.0, 1.5), (1.0, 1.5), (0.01, 1.0), (-0.1, 0.1)]
+mu_range = [(0.5, 1.5), (0.5, 1.5), (0.01, 1.0), (-0.1, 0.1)]
 hole.setmu_range(mu_range)
-# hole.setxi_train(500)
-hole.setxi_train(50)
+hole.setxi_train(500)
+# hole.setxi_train(50)
 hole.setNmax(20)
 
 # 6. Perform the offline phase
-first_mu = (0.5, 0.5, 0.01, 0.)
+# first_mu = (0.5, 0.5, 0.01, 0.)
+first_mu = (1., 1., 0.01, 0.05)
 hole.setmu(first_mu)
 hole.offline()
 
 # 7. Perform an online solve
-online_mu = (0.5,0.5,0.01, 0.)
+# online_mu = (0.5,0.5,0.01, 0.)
+online_mu = (1.,1.,0.01, 0.1)
 hole.setmu(online_mu)
 hole.online_solve()
 
