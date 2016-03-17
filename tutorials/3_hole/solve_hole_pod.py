@@ -221,9 +221,9 @@ hole.setNmax(20)
 
 # 6. Perform the offline phase
 # first_mu = (0.5, 0.5, 0.01, 0.)
-# first_mu = (1., 1., 0.01, 0.05)
-# hole.setmu(first_mu)
-# hole.offline()
+first_mu = (1., 1., 0.01, 0.05)
+hole.setmu(first_mu)
+hole.offline()
 
 # 7. Perform an online solve
 # online_mu = (0.5,0.5,0.01, 0.)
