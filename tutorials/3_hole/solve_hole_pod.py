@@ -36,11 +36,11 @@ class Hole(ShapeParametrization(EllipticCoercivePODBase)):
     def __init__(self, V, mesh, subd, bound):
         # Declare the shape parametrization map
         shape_parametrization_expression = [
-            ("2.0 - 2.0*mu[0] + mu[0]*x[0] +(2.0-2.0*mu[0])*x[1]", "2.0 -2.0*(mu[1] - mu[3]) + (2.0-(mu[1] - mu[3]) )*x[1]"), # subdomain 1
-            ("2.0*mu[0]-2.0 +x[0] +(mu[0]-1.0)*x[1]", "2.0 -2.0*(mu[1] - mu[3]) + (2.0- (mu[1] - mu[3]) )*x[1]"), # subdomain 2
+            ("2.0-2.0*mu[0] + mu[0]*x[0] +(2.0-2.0*mu[0])*x[1]", "2.0 - 2.0*mu[1] + 0.5*(4.0 - 2.0 * mu[1] - mu[3])*x[1] + 0.5 * mu[3] * x[0]"), # subdomain 1
+            ("2.0*mu[0]-2.0 +x[0] +(mu[0]-1.0)*x[1]", "2.0 * (1.0 - mu[1] + mu[3]) + (2.0 - mu[1] + mu[3]) * x[1]"), # subdomain 2
             ("2.0 - 2.0*mu[0] + (2.0-mu[0])*x[0]", "2.0 -2.0*mu[1] + (2.0-2.0*mu[1])*x[0] + mu[1]*x[1]"), # subdomain 3
             ("2.0 - 2.0*mu[0] + (2.0-mu[0])*x[0]", "2.0*mu[1] -2.0 + (mu[1]-1.0)*x[0] + x[1]"), # subdomain 4
-            ("2.0*mu[0] -2.0 + (2.0-mu[0])*x[0]", "2.0 -2.0*(mu[1] - mu[3]) + (2.0*(mu[1] - mu[3]) -2.0)*x[0] + (mu[1] - mu[3])*x[1]"), # subdomain 5
+            ("2.0*mu[0] -2.0 + (2.0-mu[0])*x[0]", "2.0 * (1.0 - mu[1] + mu[3]) + 0.5 * (-4.0 + 4.0 * mu[1] - 3. * mu[3]) * x[0] + 0.5 * (2. * mu[1] - mu[3]) * x[1]"), # subdomain 5
             ("2.0*mu[0] -2.0 + (2.0-mu[0])*x[0]", "2.0*mu[1] -2.0 + (1.0 - mu[1])*x[0] + x[1]"), # subdomain 6
             ("2.0 -2.0*mu[0] + mu[0]*x[0] + (2.0*mu[0]-2.0)*x[1]", "2.0*mu[1] -2.0 + (2.0 - mu[1])*x[1]"), # subdomain 7
             ("2.0*mu[0] -2.0 + x[0] + (1.0-mu[0])*x[1]", "2.0*mu[1] -2.0 + (2.0 - mu[1])*x[1]"), # subdomain 8
@@ -65,13 +65,13 @@ class Hole(ShapeParametrization(EllipticCoercivePODBase)):
         m3 = self.mu[2]
         m4 = self.mu[3]
         # subdomains 1
-        theta_a0 = - ((m2-m4) - 2)/m1 - (2*(2*m1 - 2)*(m1 - 1))/(m1*((m2-m4) - 2)) #K11
-        theta_a1 = -m1/((m2-m4) - 2) #K22
-        theta_a2 = -(2*(m1 - 1))/((m2-m4) - 2) #K12 and K21
+        theta_a0 = (16*m1*m1 - 32*m1 + 4*m2*m2 + 4*m2*m4 - 16*m2 + m4*m4 - 8*m4 + 32)/(2*(4*m1 - 2*m4 - 2*m1*m2 + m1*m4)) #K11
+        theta_a1 = (4*m1*m1 + m4*m4)/(2*(4*m1 - 2*m4 - 2*m1*m2 + m1*m4)) #K22
+        theta_a2 = (2*m2*m4 - 4*m4 - 8*m1 + 8*m1**2 + m4**2)/(2*(4*m1 - 2*m4 - 2*m1*m2 + m1*m4)) #K12 and K21
         # subdomains 2
-        theta_a3 = 2 - (m1 - 1)*(m1 - 1)/((m2-m4) - 2) - (m2-m4)
-        theta_a4 = -1/((m2-m4) - 2)
-        theta_a5 = (m1 - 1)/((m2-m4) - 2)
+        theta_a3 = m4 - m2 + (m1 - 1)**2/(m4 - m2 + 2) + 2
+        theta_a4 = 1/(m4 - m2 + 2)
+        theta_a5 = -(m1 - 1)/(m4 - m2 + 2)
         # subdomains 3
         theta_a6 = -m2/(m1 - 2)
         theta_a7 = - (m1 - 2)/m2 - (2*(2*m2 - 2)*(m2 - 1))/(m2*(m1 - 2))
@@ -84,9 +84,9 @@ class Hole(ShapeParametrization(EllipticCoercivePODBase)):
         theta_a12 = m3
 
         # subdomains 5
-        theta_a13 = -(m2-m4)/(m1 - 2)
-        theta_a14 = - (m1 - 2)/(m2-m4) - (2*(2*(m2-m4) - 2)*((m2-m4) - 1))/((m2-m4)*(m1 - 2))
-        theta_a15 = -(2*((m2-m4) - 1))/(m1 - 2)
+        theta_a13 = -(m2-m4/2)/(m1 - 2)
+        theta_a14 = - (2*(m1 - 2))/(2*m2 - m4) - (((3*m4)/2 - 2*m2 + 2)*(3*m4 - 4*m2 + 4))/((m1 - 2)*(2*m2 - m4))
+        theta_a15 = -(3*m4 - 4*m2 + 4)/(2*(m1 - 2))
         # boundaries 7
         theta_a16 = - (m2 - 2)/m1 - (2*(2*m1 - 2)*(m1 - 1))/(m1*(m2 - 2)) #K11
         theta_a17 = -m1/(m2 - 2) #K22
@@ -105,8 +105,8 @@ class Hole(ShapeParametrization(EllipticCoercivePODBase)):
         m1 = self.mu[0]
         m2 = self.mu[1]
         m4 = self.mu[2]
-        theta_f0 = - m1*((m2-m4) - 2.0) # boundary 1
-        theta_f1 = - (m2-m4)*(m1 - 2.0) # boundary 2
+        theta_f0 = 2*m1 - m4 - m1*m2 + (m1*m4)/2 # boundary 1
+        theta_f1 = -((m1 - 2)*(2*m2 - m4))/2 # boundary 2
         theta_f2 = - m1*(m2 - 2.0) # boundary 3
         theta_f3 = - m2*(m1 - 2.0) # boundary 4
         
@@ -215,19 +215,19 @@ parameters.linear_algebra_backend = 'PETSc'
 # 5. Set mu range, xi_train and Nmax
 mu_range = [(0.5, 1.5), (0.5, 1.5), (0.01, 1.0), (-0.1, 0.1)]
 hole.setmu_range(mu_range)
-hole.setxi_train(500)
-# hole.setxi_train(50)
+# hole.setxi_train(500)
+hole.setxi_train(50)
 hole.setNmax(20)
 
 # 6. Perform the offline phase
 # first_mu = (0.5, 0.5, 0.01, 0.)
-first_mu = (1., 1., 0.01, 0.05)
-hole.setmu(first_mu)
-hole.offline()
+# first_mu = (1., 1., 0.01, 0.05)
+# hole.setmu(first_mu)
+# hole.offline()
 
 # 7. Perform an online solve
 # online_mu = (0.5,0.5,0.01, 0.)
-online_mu = (1.,1.,0.01, 0.1)
+online_mu = (0.5,0.5,0.01, -0.1)
 hole.setmu(online_mu)
 hole.online_solve()
 
@@ -235,3 +235,4 @@ hole.online_solve()
 # hole.setxi_test(500)
 hole.setxi_test(50)
 hole.error_analysis()
+
